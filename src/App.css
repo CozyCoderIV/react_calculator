@@ -1,38 +1,152 @@
+*{
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
-}
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* border: 4px solid rgba(177, 4, 4, 0.701); */
+  border: 4px solid white;
+  font-family: 'Zen Dots', cursive;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+  background: linear-gradient(to top, rgb(27, 0, 0), rgb(49, 49, 49));
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1{
+  color: aliceblue;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.oh_button_c{
+  border: 5px solid rgb(87, 87, 88);
+  border-radius: 2vh;
+  grid-row: 1;
+  grid-column-start: 1;
+  grid-column-end: 10;
+  display: flex;
+}
+.oh_button_c > * {
+  position: relative;
+  top: 1.2vh;
+  left: .1vh;
+  margin: .1vh;
+  width: 10vh;
+  height: 5vh;
+  border:  rgb(39, 38, 38) 5px solid;
+  border-radius: 2vh;
+  font-family: 'Zen Dots', cursive;
+}
+.ov_button_c{
+  border: 5px solid rgb(87, 87, 88);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-radius: 2vh;
+  grid-column-start: 10;
+  grid-column-end: 12;
+  grid-row-start: 2;
+  grid-row-end: 9;
+}
+.ov_button_c > * {
+  border:  rgb(39, 38, 38) 5px solid;
+  border-radius: 2vh;
+  position: relative;
+  left: 1px;
+  margin: .5vh;
+  height: 7vh;
+  width: 5vh;
+  font-family: 'Zen Dots', cursive;
+}
+.c_button_c{
+  border: 5px solid rgb(32, 32, 32);
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 2vh;
+  grid-column-start: 1;
+  grid-column-end: 10;
+  grid-row-start: 2;
+  grid-row-end: 9;
+}
+.c_button_c >* {
+  position: relative;
+  top: 1vh;
+  left: 1vh;
+  height: 8vh;
+  width: 12vh;
+  margin: 5px;
+  border: rgb(39, 38, 38) 5px solid;
+  border-radius: 2vh;
+  font-family: 'Zen Dots', cursive;
+
+}
+#button_box{
+  position: relative;
+  top: 5vh;
+  left: 5vh;
+  border-radius: 2vh;
+  width: 50vh;
+  height: 65vh;
+  display: grid;
+  gap: 5px;
+}
+#button_box > *{
+  background-color: rgb(51, 50, 50);
+}
+#calc_count{
+  border: 5px solid rgb(99, 30, 30);
+  border-radius: 2vh;
+  color: rgb(16, 15, 15);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-shadow: red 0px 0px 10px;
+
+  grid-row: 1;
+  grid-column-start: 10;
+  grid-column-end: 12;
+}
+#content_container{
+  display: flex;
+}
+#content_container > *{
+  position: relative;
+  top: 10vh;
+  left: 20vh;
+}
+#calculator{
+  position: relative;
+  margin-left: 5vh;
+  width: 60vh;
+  height: 80vh;
+  border: rgb(107, 107, 108) 1px solid;
+  /* box-shadow: rgb(254, 250, 250) 0px 0px 20px 2px; */
+  border-radius: 2vh;
+  background: linear-gradient(to top, rgb(22, 22, 22), rgb(54, 53, 53));
+}
+#input_box{
+  position: relative;
+  top: 3vh;
+  width: 45vh;
+  height: 5vh;
+  border: rgb(107, 107, 108) 1px solid;
+  border-radius: 1vh;
+  font-family: 'Zen Dots', cursive;
+  color: rgb(250, 14, 14);
+  text-shadow: rgb(0, 0, 0) 0px 0px 5px;
+
+  background: linear-gradient(to right, rgb(75, 75, 75), red);
+  box-shadow: inset 0px 0px 15px 4px black;
+  text-align: center;
+}
+.pythagoras{
+  margin-top: 1vh;
+  margin-right: 5vh;
+  width: 50vh;
+  height: 70vh;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
