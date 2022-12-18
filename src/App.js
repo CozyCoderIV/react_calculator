@@ -13,100 +13,33 @@ function App() {
   const times = document.getElementById('times');
   const divide = document.getElementById('divide');
 
-  // Operator Booleans
-  const [plusB, setPlusB] = useState(false);
-  const [minusB, setMinusB] = useState(false);
-  const [timesB, setTimesB] = useState(false);
-  const [quoteB, setQuoteB] = useState(false);
-
   // Operation Arrays
-  const [expression, setExpression] = useState([]);
-  const [sumExpression, setSumExpression] = useState([]);
-  const [diffExpression, setDiffExpression] = useState([]);
-  const [mulExpression, setMulExpression] = useState([]);
-  const [quoExpression, setQuoExpression] = useState([]);
   const nums = [0,1,2,3,4,5,6,7,8,9,'.'];
+  const ops = ['+', '-', 'x', '/'];
 
-  useEffect(
-    ()=>{
-      if(plusB){
-        if(sumExpression.length === 0){
-          setSumExpression([string]);
-          setString('');
-          setPlusB(false);
-        }
-         else if(sumExpression.length >= 2){
-          let tempA = sumExpression.map((expression) => parseInt(expression));
-          let sum = 0;
-          for(let x = 0; x < tempA.length; x++){
-            sum += tempA[x];
-          }
-          console.log('Integer Array: ' + tempA + ' Sum: ' + sum);
-        }
-        setSumExpression([...sumExpression, string]);
-        setString('');
-        setPlusB(false);
-      }
-      else if (minusB){
-        if(diffExpression.length === 0){
-          setDiffExpression([string]);
-          setString('');
-          setMinusB(false);
-        }
-        setDiffExpression([...diffExpression, string]);
-        setString('');
-        setMinusB(false);
-      }
-      else if (timesB){
-        if(mulExpression.length === 0){
-          setMulExpression([string]);
-          setString('');
-          setTimesB(false);
-        }
-        setMulExpression([...mulExpression, string]);
-        setString('');
-        setTimesB(false);
-      }
-      else if (quoteB){
-        if(quoExpression.length === 0){
-          setQuoExpression([string]);
-          setString('');
-          setQuoteB(false);
-        }
-        setQuoExpression([...quoExpression, string]);
-        setString('');
-        setQuoteB(false);
-      }
-    });
 
   // Methods
   const updateString = (e) =>{
     setString(e.target.value);
   }
   // Operator Methods
-  const findSum = () => {}
-  const findDifference = () => {}
-  const findProduct = () => {}
-  const findQuotient = () => {}
+  const findSum = (a, b) => {
+    return a + b;
+  }
+  const findDifference = (a, b) => {
+    return a - b;
+  }
+  const findProduct = (a, b) => {
+    return a * b;
+  }
+  const findQuotient = (a, b) => {
+    return a / b;
+  }
   const findSquare = () => {
     let temp = parseInt(string);
     let square = temp * temp;
     setString(square.toString());
     setCount((prev) => prev + 1);
-  }
-  // const addExpression = () => {
-  //   if(expression === 0){
-  //     setExpression([string]);
-  //     setString('');
-  //   }
-  //   setExpression([...expression, string]);
-  //   setString('');
-  // }
-
-  const z = () => {
-    let temp = true;
-    setPlusB(temp);
-    console.log('plusB val:' + plusB);
   }
 
 
@@ -123,31 +56,50 @@ function App() {
   }
   const clearCalculation = () => {
     setString('');
-    setExpression([]);
-    setSumExpression([]);
-    setDiffExpression([]);
-    setMulExpression([]);
-    setQuoExpression([]);
   }
   // Calculator Methods
-  function type(digit, operator){
-    let x;
-    if(digit || operator){
-      x = (e) => setString(string + e.target.value);
-    }
+  function type(){
+    let x = (e) => setString(string + e.target.value);
     return x;
   }
-  function calculate(){
-    if(expression.length !== 0){
-      setCount((prev) => prev + 1);
+
+  function calculate(a){
+    for(let x = 0; x < a.length; x++){
+      let tempA = parseInt(a[x]);
+      let tempB = parseInt(a[x+2]);
+      let rv;
+      if(a[x] === '+' || a[x] === '-' || a[x] === 'x' || a[x] === '/'){
+        continue;
+      }
+      if(a[x + 1] === '+'){
+        rv = findSum(tempA, tempB);
+        let newArray = a.slice(3);
+        setString(newArray);
+        calculate(newArray);
+
+      } else if(a[x + 1] === '-'){
+        rv = findDifference(tempA, tempB);
+      } else if(a[x + 1] === 'x'){
+        rv = findProduct(tempA, tempB);
+      } else if(a[x + 1] === '/'){
+        rv = findQuotient(tempA, tempB);
+      }
     }
-    // addExpression();
   }
+  // function calculate(){
+  //   // setSumExpression([...sumExpression, string]); // add to expression list
+  //   let tempa = sumExpression.map((i) => parseInt(i));
+  //   let tempb = tempa.reduce((acc, curr) => acc + curr);
+  //   if(sumExpression.length >= 2){
+  //     setSumExpression([tempb.toString()]);
+  //     setString(tempb.toString());
+  //   }
+  //   setString(tempb.toString());
+  // }
 
   // Debug Method
-  console.log(string, sumExpression);
-  
-  // Render Method
+  console.log(string);
+
   return (
     <div className="App">
       <div id='content_container'>
@@ -166,14 +118,11 @@ function App() {
             </div>
             <div id='calc_count'>{count}</div>
             <div className='c_button_c'>
-              {nums.map((num) => <button value={num} className='c_buttons' onClick={type(true, false)}>{num}</button>)}
+              {nums.map((num) => <button value={num} className='c_buttons' onClick={type()}>{num}</button>)}
               <button onClick={calculate}>=</button>
             </div>
             <div className='ov_button_c'>
-              <button onClick={z} id='plus'>+</button>
-              <button id='minus'>-</button>
-              <button id='times'>x</button>
-              <button id='divide'>/</button>
+              {ops.map((op)=> <button value={op} onClick={type()}>{op}</button>)}
               <button onClick={findSquare}>Sq</button>
             </div>
           </div>
