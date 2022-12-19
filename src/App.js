@@ -63,6 +63,7 @@ function App() {
   }
   const clearCalculation = () => {
     setString('');
+    setSolve(false);
   }
   // Calculator Methods
   function type(){
@@ -72,32 +73,53 @@ function App() {
 
   function calculate (){
     if(solve === true){
-      let strArr = string;                                       // '2 + 1'
-      let strLis = [];                                           // ['2', '+', '1']
+      let strArr = string;                                      // '2+1'
+      let strLis = [];                                        
       let opLis = [];
+      let opIndexLis = [];
       console.log('calculate array: ' + strArr);
       console.log('calculate array length: ' + strArr.length);
   
+      /* populate strArr & opIndexLis */
       for(let i = 0; i < string.length; i++){
         strLis.push(string[i]);
       }
-      console.log(strLis);
+      for(let x = 0; x < strArr.length; x++){
+        if(strArr[x] === '+' || strArr[x] === '-' || strArr[x] === 'x' || strArr[x] === '/'){
+          opIndexLis.push(x);
+        }
+      }
+      console.log('string: ' + strLis);                        // ['2', '+', '1']
+      console.log('opIndexList: ' + opIndexLis);               // [1]
   
+
+      /* deal with multiple digit nums */
+      let opcount = 0;                                         // get operator count and expression count
+      let expcount = 0;
+      for(let k = 0; k < strLis.length; k++){
+        if(strLis[k] === '+' || strLis[k] === '-' || strLis[k] === 'x' || strLis[k] === '/'){
+          opcount++;
+        }
+      }
+      expcount = opcount + 1;
+      console.log('operators: ' + opcount);                 // 1
+      console.log('expressions: ' + expcount);              // 2
+
+      // if(tempLis.length > 3 && opLis.length === 1){
+      //   // find index of +
+      //   // split into separate arrays
+        
+      // }
+      
+      /* populate tempLis and opLis */
       let tempLis = [];
       for(let i = 0; i < strLis.length; i++){
-        if(strLis[i] !== '+'){
+        if(strLis[i] !== '+' && strLis[i] !== '-' && strLis[i] !== 'x' && strLis[i] !== '/'){
           tempLis.push(parseInt(strLis[i]));
-        } else if (strLis[i] === '+'){
+        } else if (strLis[i] === '+' || strLis[i] === '-' || strLis[i] === 'x' || strLis[i] === '/'){
           opLis.push(strLis[i]);
         }
       }
-      // deal with multiple digit nums
-      if(tempLis.length > 3 && opLis.length === 1){
-        // find index of +
-        // split into separate arrays
-        
-      }
-  
   
       console.log(tempLis);                                    // [2, 1]
       console.log(opLis);                                      // ['+']
@@ -110,62 +132,31 @@ function App() {
           let str = result.toString();
           setString(str);
         }
+      } else if(opLis.length === 1 && opLis[0] === '-'){
+        result = findDifference(tempLis[0], tempLis[1]);
+        if(result !== NaN){
+          console.log('result: ' + result);                      // 3
+          let str = result.toString();
+          setString(str);
+        }
+      }else if(opLis.length === 1 && opLis[0] === 'x'){
+        result = findProduct(tempLis[0], tempLis[1]);
+        if(result !== NaN){
+          console.log('result: ' + result);                      // 3
+          let str = result.toString();
+          setString(str);
+        }
+      }else if(opLis.length === 1 && opLis[0] === '/'){
+        result = findQuotient(tempLis[0], tempLis[1]);
+        if(result !== NaN){
+          console.log('result: ' + result);                      // 3
+          let str = result.toString();
+          setString(str);
+        }
       }
       setSolve(false);
     }
-
-
-
-    // Find Sum
-    
-    // find index(es) of an operator
-    // for(let i = 0; i < strArr.length; i++){
-    //   if(strArr[i] === '+' || strArr[i] === '-' || strArr[i] === 'x' || strArr[i] === '/'){
-    //   }
-    // }
-    // console.log('op count: ' + operatorCount);
-    
-    // if(operatorCount === 1){
-    //   let operatorIndex;
-    //   for(let i = 0; i < ops.length; i++){
-    //     if(strArr.includes(ops[i])){
-    //       operatorIndex = strArr.indexOf(ops[i]);
-    //     }
-    //   }
-    // }
-
-    // while((strArr[i] !== '+' && strArr[i] !== '-' && strArr[i] !== 'x' && strArr[i] !== '/') && i < strArr.length){
-    //   str += strArr[i];
-    //   i++;
-    // }
-    // console.log('str val: ' + str);
-    // let rv;
-    // let newArrayB;
-    // let newArrayA = a.slice(3);
-    // for(let x = 0; x < a.length; x++){
-    //   let tempA = parseInt(a[x]);
-    //   let tempB = parseInt(a[x+2]);
-    //   if(a[x] === '+' || a[x] === '-' || a[x] === 'x' || a[x] === '/'){
-    //     continue;
-    //   }
-    //   if(a[x + 1] === '+'){
-    //     rv = findSum(tempA, tempB);
-    //     newArrayB = [rv.toString()];
-    //     newArrayA = newArrayB.concat(newArrayA);
-    //     // setString(newArrayA);
-    //   }
-    // }
   }
-  // function calculate(){
-  //   // setSumExpression([...sumExpression, string]); // add to expression list
-  //   let tempa = sumExpression.map((i) => parseInt(i));
-  //   let tempb = tempa.reduce((acc, curr) => acc + curr);
-  //   if(sumExpression.length >= 2){
-  //     setSumExpression([tempb.toString()]);
-  //     setString(tempb.toString());
-  //   }
-  //   setString(tempb.toString());
-  // }
 
   // Debug Method
   console.log(string, solve);
