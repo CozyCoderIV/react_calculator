@@ -6,6 +6,7 @@ function App() {
   // Attributes
   const [string, setString]= useState('');
   const [count, setCount]= useState(0);
+  const [solve, setSolve]= useState(false);
 
   // Operators
   const plus = document.getElementById('plus');
@@ -43,6 +44,12 @@ function App() {
   }
 
 
+  const setTrue = () => {
+    let temp = true;
+    console.log(temp);
+    setSolve(temp);
+    calculate();
+  }
   const setNegative = () => {
     let temp = parseInt(string) * -1;
     setString(temp.toString());
@@ -63,28 +70,91 @@ function App() {
     return x;
   }
 
-  function calculate(a){
-    for(let x = 0; x < a.length; x++){
-      let tempA = parseInt(a[x]);
-      let tempB = parseInt(a[x+2]);
-      let rv;
-      if(a[x] === '+' || a[x] === '-' || a[x] === 'x' || a[x] === '/'){
-        continue;
+  function calculate (){
+    if(solve === true){
+      let strArr = string;                                       // '2 + 1'
+      let strLis = [];                                           // ['2', '+', '1']
+      let opLis = [];
+      console.log('calculate array: ' + strArr);
+      console.log('calculate array length: ' + strArr.length);
+  
+      for(let i = 0; i < string.length; i++){
+        strLis.push(string[i]);
       }
-      if(a[x + 1] === '+'){
-        rv = findSum(tempA, tempB);
-        let newArray = a.slice(3);
-        setString(newArray);
-        calculate(newArray);
-
-      } else if(a[x + 1] === '-'){
-        rv = findDifference(tempA, tempB);
-      } else if(a[x + 1] === 'x'){
-        rv = findProduct(tempA, tempB);
-      } else if(a[x + 1] === '/'){
-        rv = findQuotient(tempA, tempB);
+      console.log(strLis);
+  
+      let tempLis = [];
+      for(let i = 0; i < strLis.length; i++){
+        if(strLis[i] !== '+'){
+          tempLis.push(parseInt(strLis[i]));
+        } else if (strLis[i] === '+'){
+          opLis.push(strLis[i]);
+        }
       }
+      // deal with multiple digit nums
+      if(tempLis.length > 3 && opLis.length === 1){
+        // find index of +
+        // split into separate arrays
+        
+      }
+  
+  
+      console.log(tempLis);                                    // [2, 1]
+      console.log(opLis);                                      // ['+']
+  
+      let result = 0;
+      if(opLis.length === 1 && opLis[0] === '+'){
+        result = findSum(tempLis[0], tempLis[1]);
+        if(result !== NaN){
+          console.log('result: ' + result);                      // 3
+          let str = result.toString();
+          setString(str);
+        }
+      }
+      setSolve(false);
     }
+
+
+
+    // Find Sum
+    
+    // find index(es) of an operator
+    // for(let i = 0; i < strArr.length; i++){
+    //   if(strArr[i] === '+' || strArr[i] === '-' || strArr[i] === 'x' || strArr[i] === '/'){
+    //   }
+    // }
+    // console.log('op count: ' + operatorCount);
+    
+    // if(operatorCount === 1){
+    //   let operatorIndex;
+    //   for(let i = 0; i < ops.length; i++){
+    //     if(strArr.includes(ops[i])){
+    //       operatorIndex = strArr.indexOf(ops[i]);
+    //     }
+    //   }
+    // }
+
+    // while((strArr[i] !== '+' && strArr[i] !== '-' && strArr[i] !== 'x' && strArr[i] !== '/') && i < strArr.length){
+    //   str += strArr[i];
+    //   i++;
+    // }
+    // console.log('str val: ' + str);
+    // let rv;
+    // let newArrayB;
+    // let newArrayA = a.slice(3);
+    // for(let x = 0; x < a.length; x++){
+    //   let tempA = parseInt(a[x]);
+    //   let tempB = parseInt(a[x+2]);
+    //   if(a[x] === '+' || a[x] === '-' || a[x] === 'x' || a[x] === '/'){
+    //     continue;
+    //   }
+    //   if(a[x + 1] === '+'){
+    //     rv = findSum(tempA, tempB);
+    //     newArrayB = [rv.toString()];
+    //     newArrayA = newArrayB.concat(newArrayA);
+    //     // setString(newArrayA);
+    //   }
+    // }
   }
   // function calculate(){
   //   // setSumExpression([...sumExpression, string]); // add to expression list
@@ -98,7 +168,7 @@ function App() {
   // }
 
   // Debug Method
-  console.log(string);
+  console.log(string, solve);
 
   return (
     <div className="App">
@@ -119,7 +189,7 @@ function App() {
             <div id='calc_count'>{count}</div>
             <div className='c_button_c'>
               {nums.map((num) => <button value={num} className='c_buttons' onClick={type()}>{num}</button>)}
-              <button onClick={calculate}>=</button>
+              <button onClick={setTrue}>=</button>
             </div>
             <div className='ov_button_c'>
               {ops.map((op)=> <button value={op} onClick={type()}>{op}</button>)}
