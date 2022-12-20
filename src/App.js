@@ -48,6 +48,7 @@ function App() {
     let temp = true;
     console.log(temp);
     setSolve(temp);
+    setCount((prev) => prev + 1);
     calculate();
   }
   const setNegative = () => {
@@ -104,25 +105,31 @@ function App() {
       expcount = opcount + 1;
       console.log('operators: ' + opcount);                 // 1
       console.log('expressions: ' + expcount);              // 2
-
-      // if(tempLis.length > 3 && opLis.length === 1){
-      //   // find index of +
-      //   // split into separate arrays
-        
-      // }
       
-      /* populate tempLis and opLis */
-      let tempLis = [];
-      for(let i = 0; i < strLis.length; i++){
-        if(strLis[i] !== '+' && strLis[i] !== '-' && strLis[i] !== 'x' && strLis[i] !== '/'){
-          tempLis.push(parseInt(strLis[i]));
-        } else if (strLis[i] === '+' || strLis[i] === '-' || strLis[i] === 'x' || strLis[i] === '/'){
-          opLis.push(strLis[i]);
+      /* populate eList and opLis */
+      let eList = [];
+      for(let i = 0; i < expcount; i++){
+        eList.push('');
+      }
+
+      let iterator = 0;
+      for(let x = 0; x < strArr.length; x++){
+        if(strArr[x] === '+' || strArr[x] === '-' || strArr[x] === 'x' || strArr[x] === '/'){
+          iterator++;
+          opLis.push(strArr[x]);
+        } else if (strArr[x] !== '+'){
+          let temp = strArr[x];
+          eList[iterator] += temp;
         }
       }
-  
-      console.log(tempLis);                                    // [2, 1]
-      console.log(opLis);                                      // ['+']
+      console.log(eList);
+
+      let tempLis = [];
+      for(let k = 0; k < eList.length; k++){
+        tempLis[k] = parseInt(eList[k]);
+      }
+      console.log(tempLis);
+      console.log(opLis);
   
       let result = 0;
       if(opLis.length === 1 && opLis[0] === '+'){
