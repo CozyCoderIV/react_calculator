@@ -66,8 +66,9 @@ function App() {
     let strLis = [];                                        
     let opLis = [];
     let opIndexLis = [];
-    console.log('calculate array: ' + strArr);
-    console.log('calculate array length: ' + strArr.length);
+    let result = 0;
+    // console.log('calculate array: ' + strArr);
+    // console.log('calculate array length: ' + strArr.length);
 
     /* populate strArr & opIndexLis */
     for(let i = 0; i < string.length; i++){
@@ -109,16 +110,15 @@ function App() {
         eList[iterator] += temp;
       }
     }
-    console.log(eList);
+    // console.log('eList: '+ eList);
     let tempLis = [];
     for(let k = 0; k < eList.length; k++){
       tempLis[k] = parseInt(eList[k]);
     }
-    console.log(tempLis);
-    console.log(opLis);
+    console.log('tempLis: ' + tempLis);
+    console.log('opLis: ' + opLis);
 
     // calculate result value
-    let result = 0;
     if(opLis.length === 1 && opLis[0] === '+'){
       result = findSum(tempLis[0], tempLis[1]);
       if(result !== NaN){
@@ -154,30 +154,175 @@ function App() {
       let operations = opcount;
       let tempitr = 0;
       let result2 = tempLis[0];
-      while(operations > 0){
-        for(let i = 0; i < tempLis.length; i++){
-          if(opLis[tempitr] === '+'){
-              result2 += tempLis[i+1];
-              tempitr++;
-              operations--;
-          } else if(opLis[tempitr] === '-'){
-              result2 -= tempLis[i+1];
-              tempitr++;
-              operations--;
-          } else if(opLis[tempitr] === 'x'){
-              result2 *= tempLis[i+1];
-              tempitr++;
-              operations--;
-          } else if(opLis[tempitr] === '/'){
-              result2 /= tempLis[i+1];
-              tempitr++;
-              operations--;
+      let mulIndex, y;
+
+      // (2 + 3 x 5)
+      // look for 'x'
+      if((opLis.includes('+') && opLis.includes('x')) || (opLis.includes('-') && opLis.includes('x'))){
+        // find index of 'x'
+        for(let i = 0; i < opLis.length; i++){
+          if(opLis[i] === 'x'){
+              mulIndex = i;
           }
         }
+        // perform multiplication
+        y = tempLis[mulIndex];                          
+        y *= tempLis[mulIndex + 1];
+        // update opLis (remove x)
+        let opLisB = opLis.filter((op) => op !== 'x');
+        // update tempLis 
+        tempLis[mulIndex] = y;
+        let tA = tempLis.filter((item) => item !== tempLis[mulIndex+1]);
+        tempLis = tA;
+        opLis = opLisB;
+                 
+        console.log('(diff opp) result2: ' + result2);
+        console.log('(diff opp) tempLis: ' + tempLis);
+        console.log('(diff opp) opLis: ' + opLis);
+        operations--;
+
+        // calculate result value
+        if(opLis.length === 1 && opLis[0] === '+'){
+          result = findSum(tempLis[0], tempLis[1]);
+          if(result !== NaN){
+            console.log('result: ' + result);                      // 3
+            let str = result.toString();
+            setString(str);
+          }
+        } else if(opLis.length === 1 && opLis[0] === '-'){
+          result = findDifference(tempLis[0], tempLis[1]);
+          if(result !== NaN){
+            console.log('result: ' + result);                      // 3
+            let str = result.toString();
+            setString(str);
+          }
+        } else {
+
+        while(operations > 0){
+          console.log(opLis);
+          console.log(operations);
+  
+          for(let i = 0; i < tempLis.length; i++){
+              if(opLis[tempitr] === '+'){
+                result2 += tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '-'){
+                result2 -= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === 'x'){
+                result2 *= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '/'){
+                result2 /= tempLis[i+1];
+                tempitr++;
+                operations--;
+              }
+          }
+        }
+        result = result2;
+        let strC = result.toString();
+        setString(strC);
       }
-      result = result2;
-      let strC = result.toString();
-      setString(strC);
+      } else if ((opLis.includes('+') && opLis.includes('/')) || (opLis.includes('-') && opLis.includes('/'))){
+          // find index of '/'
+          for(let i = 0; i < opLis.length; i++){
+            if(opLis[i] === '/'){
+              mulIndex = i;
+            }
+          }
+          // perform multiplication
+          y = tempLis[mulIndex];                          
+          y /= tempLis[mulIndex + 1];
+          // update opLis (remove /)
+          let opLisB = opLis.filter((op) => op !== '/');
+          // update tempLis 
+          tempLis[mulIndex] = y;
+          let tA = tempLis.filter((item) => item !== tempLis[mulIndex+1]);
+          tempLis = tA;
+          opLis = opLisB;
+                         
+          console.log('(diff opp) result2: ' + result2);
+          console.log('(diff opp) tempLis: ' + tempLis);
+          console.log('(diff opp) opLis: ' + opLis);
+          operations--;
+
+          if(opLis.length === 1 && opLis[0] === '+'){
+            result = findSum(tempLis[0], tempLis[1]);
+            if(result !== NaN){
+              console.log('result: ' + result);                      // 3
+              let str = result.toString();
+              setString(str);
+            }
+          } else if(opLis.length === 1 && opLis[0] === '-'){
+            result = findDifference(tempLis[0], tempLis[1]);
+            if(result !== NaN){
+              console.log('result: ' + result);                      // 3
+              let str = result.toString();
+              setString(str);
+            }
+          } else {
+        
+          while(operations > 0){
+            console.log(opLis);
+            console.log(operations);
+          
+            for(let i = 0; i < tempLis.length; i++){
+              if(opLis[tempitr] === '+'){
+                result2 += tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '-'){
+                result2 -= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === 'x'){
+                result2 *= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '/'){
+                result2 /= tempLis[i+1];
+                tempitr++;
+                operations--;
+              }
+            }
+          }
+          result = result2;
+          let strC = result.toString();
+          setString(strC);
+        }
+      }else {
+        while(operations > 0){
+          console.log(opLis);
+          console.log(operations);
+  
+          for(let i = 0; i < tempLis.length; i++){
+              if(opLis[tempitr] === '+'){
+                result2 += tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '-'){
+                result2 -= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === 'x'){
+                result2 *= tempLis[i+1];
+                tempitr++;
+                operations--;
+              } else if(opLis[tempitr] === '/'){
+                result2 /= tempLis[i+1];
+                tempitr++;
+                operations--;
+              }
+          }
+        }
+        result = result2;
+        let strC = result.toString();
+        setString(strC);
+      }
+
     }
 
 

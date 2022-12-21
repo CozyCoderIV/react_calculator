@@ -129,6 +129,7 @@ h1{
   border-radius: 1vh;
   font-family: 'Zen Dots', cursive;
   color: rgb(250, 14, 14);
+  color: white;
   text-shadow: rgb(0, 0, 0) 0px 0px 5px;
 
   background: linear-gradient(to right, rgb(75, 75, 75), red);
